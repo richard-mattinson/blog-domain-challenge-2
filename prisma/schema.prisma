@@ -11,10 +11,6 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model Id {
-  id Int @id @default(autoincrement())
-}
-
 model User {
   id Int @id @default(autoincrement())
   username String @unique
