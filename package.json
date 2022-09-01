@@ -22,5 +22,8 @@
   "homepage": "https://github.com/richard-mattinson/blog-domain-challenge-2#readme",
   "devDependencies": {
     "prisma": "^4.3.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.3.0"
   }
 }

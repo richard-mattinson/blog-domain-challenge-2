@@ -33,7 +33,11 @@ _Ensure your .env file is included in .gitignore_
 
 ## Creating the database schema (Using Prisma Schema)
 <https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/relational-databases/using-prisma-migrate-node-postgres>
-
+- Open schema.prisma and create a simple table model to test your migrate with
+  - model Id { id Int @id @default(autoincrement()) }
+- run `npx prisma migrate dev --name init` to map your model to the database schema. This command does two things:
+  - It creates a new SQL migration file for this migration
+  - It runs the SQL migration file against the database
 
 
 During the Using Prisma Migrate step, only add one model with an id column but no relations or other fields. This is enough to get migrations working.
