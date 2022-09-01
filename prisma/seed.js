@@ -2,25 +2,36 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function seed() {
-    await createUser();
-    // const profiles = await createUser();
-    // const posts = await createProfile();
-    // const categories = await createPosts(); 
-    // await createComments(posts, profiles);
-    process.exit(0);
+  await createUser();
+  // const profiles = await createUser();
+  // const posts = await createProfile();
+  // const categories = await createPosts();
+  // await createComments(posts, profiles);
+  process.exit(0);
 }
 
 async function createUser() {
-    const user = await prisma.user.create({
-        data: {
-        username: 'Des',
-        email: 'thewonkymess@gds.co.uk',
-        password: 'youCheekyBOOM365',
-        }
-    });
+  const user = await prisma.user.create({
+    data: {
+      username: "DonkeyDes",
+      email: "thewonkymess@gds.co.uk",
+      password: "youCheekyBOOM365",
+      profile: {
+        create: {
+          firstName: "Des",
+          lastName: "Des",
+          age: 2,
+          pictureUrl: "http://www.pix/ohjesus.png"
+        },
+      },
+    },
+    include: {
+      profile: true,
+    },
+  });
 
-    console.log("User created", user);
-    return user;
+  console.log("User created", user);
+  return user;
 }
 
 seed()
