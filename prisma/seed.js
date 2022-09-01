@@ -3,8 +3,7 @@ const prisma = new PrismaClient();
 
 async function seed() {
   await createUser();
-  // const profiles = await createUser();
-  // const posts = await createProfile();
+  const posts = await createPost();
   // const categories = await createPosts();
   // await createComments(posts, profiles);
   process.exit(0);
@@ -32,6 +31,17 @@ async function createUser() {
 
   console.log("User created", user);
   return user;
+}
+
+async function createPost() {
+  const post = await prisma.post.create({
+    data: {
+      title: "I like explosions",
+      content: "no really, i really do",
+      imageUrl: "http://www.pix/splosion.tiff",
+    },
+  });
+  return post;
 }
 
 seed()
