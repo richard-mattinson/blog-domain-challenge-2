@@ -5,6 +5,7 @@ async function seed() {
   await createUser();
   const posts = await createPost();
   const comments = await createComment();
+  const category = await createCategory();
   // await createComments(posts, user);
   process.exit(0);
 }
@@ -54,6 +55,16 @@ async function createComment() {
   })
   console.log("Comment created", comment);
   return comment;
+}
+
+async function createCategory() {
+  const category = await prisma.category.create({
+    data: {
+      name: "gaming"
+    }
+  })
+  console.log("Category created", category);
+  return category;
 }
 
 seed()
