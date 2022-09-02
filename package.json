@@ -7,11 +7,11 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/index.js"
   },
   "prisma": {
-  "seed": "node prisma/seed.js"
-},
+    "seed": "node prisma/seed.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/richard-mattinson/blog-domain-challenge-2.git"
@@ -24,9 +24,13 @@
   },
   "homepage": "https://github.com/richard-mattinson/blog-domain-challenge-2#readme",
   "devDependencies": {
+    "nodemon": "^2.0.19",
     "prisma": "^4.3.0"
   },
   "dependencies": {
-    "@prisma/client": "^4.3.0"
+    "@prisma/client": "^4.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0"
   }
 }
