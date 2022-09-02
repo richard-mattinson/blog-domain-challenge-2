@@ -4,8 +4,8 @@ const prisma = new PrismaClient();
 async function seed() {
   await createUser();
   const posts = await createPost();
-  // const categories = await createPosts();
-  // await createComments(posts, profiles);
+  const comments = await createComment();
+  // await createComments(posts, user);
   process.exit(0);
 }
 
@@ -41,7 +41,19 @@ async function createPost() {
       imageUrl: "http://www.pix/splosion.tiff",
     },
   });
+  console.log("Post created", post);
   return post;
+}
+
+async function createComment() {
+  const comment = await prisma.comment.create({
+    data: {
+      parentId: 1, 
+      content: "put it away bro",
+    }
+  })
+  console.log("Comment created", comment);
+  return comment;
 }
 
 seed()

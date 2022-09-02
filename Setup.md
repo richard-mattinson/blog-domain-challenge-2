@@ -91,3 +91,4 @@ main()
 - `npx prisma migrate dev --create-only --skip-seed --name NameOfYourMigrationFile` to create a new migration file for each model you add / change without applying it straight to the database
 
 - `npx prisma migrate reset` to reset your database structure, apply all of your migrations in sequence and run your seed file
+- `npx prisma format` auto formats the schema file
