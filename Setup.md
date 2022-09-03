@@ -94,26 +94,71 @@ main()
 
 - `npx prisma migrate reset` to reset your database structure, apply all of your migrations in sequence and run your seed file
 - `npx prisma format` auto formats the schema file
+- `npm migrate prisma db push`
 
 # Set up your API
 
 1. Run `npm install -D nodemon` to install [nodemon](https://www.npmjs.com/package/nodemon) as a development dependency
-2. Run `npm install express cors` to install ExpressJS and cors
+2. Run `npm install express cors morgan` to install ExpressJS, Morgan and cors
     - [What is cors?](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (tldr; It allows us to make requests to our API from another domain)
 3. Replace the `"test"` script in `package.json` with a `"start"` script, use `"nodemon src/index.js"` as the value
     - This allows us to start our app using the `npm start` command. It'll use nodemon to run an index.js file in a directory called `src`, and every time you make any changes to your code the app will automatically restart.
 4. Create the `src` directory with an `index.js` file inside
 5. Set up express in the `index.js` file using [this example](https://expressjs.com/en/starter/hello-world.html) and your previous exercises as references
 ```javascript
+// Require middleware
 const express = require("express");
 const app = express();
+const cors = require("cors");
+const morgan = require("morgan");
+app.disable("x-powered-by");
+
+// Add middleware
+app.use(cors());
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Tell express to use your routers here
+const userRouter = require("./routers/user");
+app.use("/user", userRouter);
+
+// Set the port
 const port = 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
+// Start API server
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`\n Server is running on http://localhost:${port}\n`);
 });
+```
+6. Create folders inside src called **controllers** and **routers**
+7. Inside both folders create files named after your first table in the schema, e.g. **users.js**
+8. The users file in `controllers` should look like this:
+```javascript
+const { Prisma } = require("@prisma/client")
+
+// create a new POST request in Insomnia with the route http://localhost:3000/user/register to test this works
+const createUser = async (req, res) => {
+    res.json({msg: "I'm all hooked up"})
+}
+
+module.exports = {
+    createUser
+}
+```
+9. The users file in `routers` should look like this:
+```javascript
+const express = require('express');
+const {
+    createUser
+} = require('../controllers/user')
+
+const router = express.Router();
+
+// In index.js, we told express that the /customer route should use this router file
+// The below /register route extends that, so the end result will be a URL that looks like http://localhost:4000/customer/register
+router.post("/register", createUser);
+// router.put("/:id", updateCustomer);
+
+module.exports = router;
 ```

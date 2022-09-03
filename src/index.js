@@ -12,10 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Tell express to use your routers here
-// const userRouter = require("./routers/user");
+const userRouter = require("./routers/user");
 // const profileRouter = require("./routers/profile");
 // const postRouter = require("./routers/post");
-// app.use("/user", userRouter);
+app.use("/user", userRouter);
 // app.use("/profile", profileRouter);
 // app.use("/post", postRouter);
 

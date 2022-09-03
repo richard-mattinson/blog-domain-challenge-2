@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialActions"] // opt in to new Prisma features, in cascasding deletes
 }
 
 datasource db {
@@ -36,17 +37,18 @@ model Profile {
 }
 
 model Post {
-  id          Int       @id @default(autoincrement())
-  title       String    @unique
+  id          Int        @id @default(autoincrement())
+  title       String     @unique
   content     String
   imageUrl    String
   publishedAt DateTime? // ? allows the value to be null
   userId      Int?
-  user        User?     @relation(fields: [userId], references: [id])
+  // cascade in line below means if the user is deleted, all linked posts will be deleted as well
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comment     Comment[]
-  category Category[] // this is one side of an implicit many to many
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  category    Category[] // this is one side of an implicit many to many
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Comment {
@@ -66,7 +68,7 @@ model Comment {
 model Category {
   id        Int      @id @default(autoincrement())
   name      String   @unique
-  post Post [] // this is the other side of an implicit many to many
+  post      Post[] // this is the other side of an implicit many to many
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
