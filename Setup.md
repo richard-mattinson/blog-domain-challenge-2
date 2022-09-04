@@ -162,3 +162,7 @@ router.post("/register", createUser);
 
 module.exports = router;
 ```
+10. For each new route in your conctoller file you need to 
+    1.  Export that route at the bottom of conctoller/tablename.js
+    2.  Add the require at the top of routes/tablename.js
+    3.  Add the router at the bottom of routes/tablename.js, with the relevant CRUD operation (get, post, put, delete)
