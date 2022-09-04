@@ -103,7 +103,34 @@ const updateUser = async (req, res) => {
   }
 } 
 
+// DELETE A USER 201 (x)
+// - User with that id does not exist 404 (x)
+const deleteUser = async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const findUserToDelete = await prisma.user.findUnique({
+      where: { id: id },
+    });
+    if (findUserToDelete === null) throw 404;
+
+    await prisma.profile.delete({ where: { userId: id } });
+
+    const deletedUser = await prisma.user.delete({
+      where: { id: id }
+    })
+    res.status(201).json({ user: deletedUser });
+
+  } catch (error) {
+    if (error = 404) {
+      res.status(404).json({ error: `User ${errors.pageNotFound}`})
+    } else {
+      res.status(500).json({ error: errors.serverError });
+    }
+  }
+}
+
 module.exports = {
   createUser,
-  updateUser
+  updateUser,
+  deleteUser,
 };
